@@ -1,0 +1,16 @@
+{
+	"name": "Postgre_DataSet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Linked_Service_PostgreSql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "PostgreSqlV2Table",
+		"schema": [],
+		"typeProperties": {
+			"schema": "public",
+			"table": "hospitals"
+		}
+	}
+}
