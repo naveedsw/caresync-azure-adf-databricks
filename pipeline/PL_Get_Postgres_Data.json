@@ -52,7 +52,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DelimitedText1",
+						"referenceName": "Datalake_DataSet",
 						"type": "DatasetReference"
 					}
 				]
