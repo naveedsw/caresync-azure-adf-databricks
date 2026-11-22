@@ -17,21 +17,16 @@
 				"typeProperties": {
 					"source": {
 						"type": "PostgreSqlV2Source",
-						"query": {
-							"value": "  SELECT * from public.hospitals",
-							"type": "Expression"
-						},
+						"query": "  SELECT * from public.hospitals",
 						"queryTimeout": "02:00:00"
 					},
 					"sink": {
-						"type": "DelimitedTextSink",
+						"type": "ParquetSink",
 						"storeSettings": {
 							"type": "AzureBlobFSWriteSettings"
 						},
 						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".txt"
+							"type": "ParquetWriteSettings"
 						}
 					},
 					"enableStaging": false,
@@ -46,14 +41,18 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "Postgre_DataSet",
+						"referenceName": "DS_PostgreSqlTable",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "Datalake_DataSet",
-						"type": "DatasetReference"
+						"referenceName": "DS_ADLS_Parquet",
+						"type": "DatasetReference",
+						"parameters": {
+							"container": "landing",
+							"folder": "test"
+						}
 					}
 				]
 			}
