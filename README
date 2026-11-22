@@ -1,0 +1,127 @@
+# CareSync: Azure Data Engineering Project
+
+An end-to-end data engineering project built on **Azure Data Factory (ADF)** for a healthcare-style dataset. It ingests data from Azure SQL Database and files into Azure Data Lake Storage Gen2 using reusable, parameterized pipelines with incremental loading, alerting, and CI/CD.
+
+## Overview
+
+CareSync simulates a healthcare data platform where data such as [patients, appointments, doctors, billing] must be collected reliably from multiple sources and stored in a data lake for analytics.
+
+The project focuses on real-world patterns: incremental loads, metadata-driven ingestion, event-based triggers, error handling, monitoring, and secure configuration.
+
+> **Note:** All data in this project is synthetic. No real patient information is used.
+
+## Architecture
+
+```
+Azure SQL DB ──┐
+               ├──> Azure Data Factory ──> ADLS Gen2 (raw layer)
+File sources ──┘          │
+                          ├── Logic Apps (email alerts)
+                          ├── Key Vault (secrets)
+                          └── GitHub (source control + CI/CD)
+```
+
+> Add your architecture diagram here: `docs/architecture.png`
+
+## Tech Stack
+
+- Azure Data Factory
+- Azure SQL Database
+- Azure Data Lake Storage Gen2
+- Azure Logic Apps
+- Azure Key Vault
+- GitHub (version control and CI/CD)
+
+## Key Features
+
+- **Incremental load:** watermark pattern that ingests only new and changed records
+- **Metadata-driven ingestion:** Lookup + ForEach loads multiple tables with one pipeline
+- **Parameterization:** parameterized datasets, pipeline parameters, and global parameters
+- **File-based ingestion:** Get Metadata, Filter, Copy, and Delete activities
+- **Event-driven triggers:** storage event triggers start pipelines when new files arrive
+- **Scheduled triggers:** time-based pipeline runs
+- **Alerting:** success and failure email notifications through Logic Apps
+- **Error handling:** retries, timeouts, and the Fail activity
+- **Security:** secrets stored in Azure Key Vault, never in code
+- **CI/CD:** ADF integrated with GitHub
+
+## Data Model
+
+| Table | Description |
+|-------|-------------|
+| `patients` | Patient demographic details |
+| `appointments` | Scheduled and completed visits |
+| `doctors` | Doctor and department information |
+| `billing` | Invoices and payments |
+
+> Replace with your actual tables.
+
+## Repository Structure
+
+```
+├── dataset/          # ADF datasets
+├── linkedService/    # Linked service definitions
+├── pipeline/         # Pipeline definitions
+├── trigger/          # Trigger definitions
+├── factory/          # Global parameters and factory config
+├── sql/              # SQL scripts (tables, watermark metadata)
+├── docs/             # Diagrams and screenshots
+└── README.md
+```
+
+> Adjust folder names to match your repo.
+
+## Pipelines
+
+| Pipeline | Description |
+|----------|-------------|
+| `pl_incremental_load` | Loads only new or changed data using a watermark table |
+| `pl_foreach_ingestion` | Ingests multiple tables in a single run |
+| `pl_file_ingestion` | Processes files from a landing container |
+| `pl_notification` | Sends email alerts through Logic Apps |
+
+> Replace with your actual pipeline names.
+
+## Getting Started
+
+### Prerequisites
+
+- An Azure subscription
+- Azure Data Factory, Azure SQL Database, and an ADLS Gen2 storage account
+- A GitHub account
+
+### Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/<your-username>/<your-repo-name>.git
+   ```
+2. **Create Azure resources:** Resource Group, ADF, Azure SQL DB, ADLS Gen2, Key Vault, and Logic App.
+3. **Run the SQL scripts** in the `sql/` folder to create source tables and the watermark table.
+4. **Store secrets in Key Vault** and grant ADF access through its managed identity.
+5. **Connect ADF to GitHub** (Manage > Git configuration) and select this repository.
+6. **Update linked services and global parameters** with your own resource names.
+7. **Publish and run** the pipelines, or enable the triggers.
+
+## What I Learned
+
+- Parameterizing early reduces rework
+- Incremental loads are far more efficient than full reloads
+- Monitoring and alerting matter as much as pipeline logic
+- Key Vault should be the default for secrets
+
+## Future Improvements
+
+- Add bronze, silver, and gold layers using Azure Databricks
+- Build a fully metadata-driven framework
+- Add data quality checks
+- Automate deployment with GitHub Actions
+
+## Screenshots
+
+> Add screenshots of your pipelines and monitoring runs in `docs/`.
+
+## Author
+
+**Naveed**
+[LinkedIn](https://linkedin.com/in/your-profile) | [GitHub](https://github.com/naveedsw)
