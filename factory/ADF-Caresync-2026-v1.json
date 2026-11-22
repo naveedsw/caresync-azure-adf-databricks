@@ -1,0 +1,16 @@
+{
+	"name": "ADF-Caresync-2026-v1",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true,
+			"isExplicitlySet": false
+		}
+	},
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "a08c2bb8-cc3b-4471-bcd0-567418d367ca",
+		"tenantId": "75609636-5e84-4fcc-b9a0-7aa88ae4b064"
+	}
+}
