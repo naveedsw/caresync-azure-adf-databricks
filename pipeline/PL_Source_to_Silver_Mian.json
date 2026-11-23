@@ -18,7 +18,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT  table_id FROM [ctrl].[table_config] WHERE is_active = 1 and source_system = '@{pipeline().parameters.source_system}'",
+							"value": "SELECT  table_id FROM [ctrl].[table_config] WHERE is_active = 1 \nand source_system = '@{pipeline().parameters.source_system}'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -27,14 +27,58 @@
 					"dataset": {
 						"referenceName": "DS_AzureSqlTable",
 						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEach_Loop_List_of_Tables",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Read Source Table List",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Read Source Table List').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "test",
+								"value": {
+									"value": "@string(item().table_id)",
+									"type": "Expression"
+								}
+							}
+						}
+					]
 				}
 			}
 		],
 		"parameters": {
 			"source_system": {
 				"type": "string",
-				"defaultValue": "neon-postgres"
+				"defaultValue": "neon_postgres"
+			}
+		},
+		"variables": {
+			"test": {
+				"type": "String"
 			}
 		},
 		"annotations": []
