@@ -1,0 +1,10 @@
+{
+	"name": "Linked_Service_Azure_DataLake",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://caresynstorage.dfs.core.windows.net/"
+		}
+	}
+}
