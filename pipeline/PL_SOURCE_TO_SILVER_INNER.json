@@ -119,6 +119,84 @@
 						}
 					}
 				]
+			},
+			{
+				"name": "Landing to bronze",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "Source to Landing Ingestion",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/repo_data/caresync-adb-repo/Landinf_to_Bronze",
+					"baseParameters": {
+						"Landing Timestamp": {
+							"value": "@variables('start_time')",
+							"type": "Expression"
+						},
+						"Source System": {
+							"value": "@activity('Read Table Details').output.firstRow.source_system",
+							"type": "Expression"
+						},
+						"Table Name": {
+							"value": "@activity('Read Table Details').output.firstRow.bronze_table_name",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "LS_AzureDatabricks_Token",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Bronze to Silver",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "Landing to bronze",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/repo_data/caresync-adb-repo/Bronze to Silver",
+					"baseParameters": {
+						"Landing Timestamp": {
+							"value": "@variables('start_time')",
+							"type": "Expression"
+						},
+						"Table Name": {
+							"value": "@activity('Read Table Details').output.firstRow.silver_table_name",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "LS_AzureDatabricks_Token",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"parameters": {
