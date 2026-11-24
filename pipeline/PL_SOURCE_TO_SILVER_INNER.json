@@ -140,7 +140,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebookPath": "/repo_data/caresync-adb-repo/Landinf_to_Bronze",
+					"notebookPath": "/repo_data/caresync-adb-repo/Landing_to_Bronze",
 					"baseParameters": {
 						"Landing Timestamp": {
 							"value": "@variables('start_time')",
